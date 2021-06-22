@@ -14,6 +14,18 @@ class Bank {
 
 }
 
+class BankField {
+
+  constructor( name, friendlyName, position, type, required) {
+    this.name = name;
+    this.friendlyName = friendlyName;
+    this.position = position;
+    this.type = type;
+    this.required = required;
+  }
+  
+}
+
 class ErrorMessage {
 
   constructor( code, key, description, text ) {
@@ -123,6 +135,13 @@ qVa7ouJfXs3HUrpthJqQ30cPefEt0jAFj6QRJDsGwKTXS3gq7mGz3AYq0Be2LuTD
 
   }
 
+  getBankFields( bankId ) {
+
+    let url = `${this.#serverUrl}/banks/${bankId}/fields`;
+    return this.doGet( url, this.processBankFieldsResponse, this );
+
+  }
+  
   getErrorMessages() {
 
     let url = `${this.#serverUrl}/credentials/messages/failure`;
@@ -361,6 +380,25 @@ qVa7ouJfXs3HUrpthJqQ30cPefEt0jAFj6QRJDsGwKTXS3gq7mGz3AYq0Be2LuTD
     );
 
     return banks;
+
+  }
+  
+  processBankFieldsResponse( response, component ) {
+
+    var fields = [];
+    let bankFieldsJsonList = response.data;
+
+    bankFieldsJsonList.forEach( field =>
+      fields.push( new BankField(
+        field.name,
+        field.friendlyName,
+        field.position,
+        field.type,
+        field.required
+      ) )
+    );
+
+    return fields;
 
   }
 
