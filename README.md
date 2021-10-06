@@ -30,6 +30,7 @@ npm install finerio-connect-lite
 ```javascript
 let fcLite = require( 'finerio-connect-lite' );
 let FinerioConnectLite = fcLite.FinerioConnectLite;
+const util = require('util');
 
 let serverUrl = 'https://lite.finerioconnect.com';
 let username = 'yourUsername';
@@ -67,7 +68,7 @@ Output:
 
 ```javascript
 finerioConnectLite.getBankFields( bankId )
-  .then( data => console.log( data ) ) 
+  .then( data => console.log( util.inspect(data, {showHidden: false, depth: null})) ) 
   .catch( error => console.log( error ) );
 ```
 
@@ -80,7 +81,11 @@ Output:
     friendlyName: 'Usuario',
     position: 1,
     type: '1',
-    required: true
+    required: true,
+    extraData: [
+      BankFieldExtraData { name: 'nameField1', value: 'customValue' },
+      BankFieldExtraData { name: 'nameField2', value: 'customValue' }
+    ]
   },
 ...
 ]

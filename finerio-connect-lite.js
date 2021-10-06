@@ -16,14 +16,24 @@ class Bank {
 
 class BankField {
 
-  constructor( name, friendlyName, position, type, required) {
+  constructor( name, friendlyName, position, type, required, extraData) {
     this.name = name;
     this.friendlyName = friendlyName;
     this.position = position;
     this.type = type;
     this.required = required;
+    this.extraData = extraData;
   }
   
+}
+
+class BankFieldExtraData {
+
+  constructor( name, value ) {
+    this.name = name;
+    this.value = value;
+  }
+
 }
 
 class ErrorMessage {
@@ -394,7 +404,8 @@ qVa7ouJfXs3HUrpthJqQ30cPefEt0jAFj6QRJDsGwKTXS3gq7mGz3AYq0Be2LuTD
         field.friendlyName,
         field.position,
         field.type,
-        field.required
+        field.required,
+        component.processBankFieldExtraData( field.extraData )
       ) )
     );
 
@@ -402,6 +413,20 @@ qVa7ouJfXs3HUrpthJqQ30cPefEt0jAFj6QRJDsGwKTXS3gq7mGz3AYq0Be2LuTD
 
   }
 
+  processBankFieldExtraData( extraData ) {
+    if ( extraData == undefined ) {
+      return null;
+    }
+    var fieldsExtraData = [];
+    extraData.forEach( fieldExtraData =>
+      fieldsExtraData.push( new BankFieldExtraData(
+        fieldExtraData.name, fieldExtraData.value
+      ) )
+    );
+    
+    return fieldsExtraData;
+  }
+  
   processErrorMessagesResponse( response, component ) {
 
     var errorMessages = [];
