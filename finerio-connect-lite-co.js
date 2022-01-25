@@ -1,4 +1,3 @@
-// Using NodeJS 15.9.0
 
 const axios = require( 'axios' );
 const querystring = require( 'querystring' );
